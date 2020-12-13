@@ -11,6 +11,7 @@ import url from '../components/url';
 
    return <div >
    <Header len={props.cart.length}/>
+   <br></br>
               {props.order.map(o=><Showorder {...o} />
               )}
         </div>
@@ -30,7 +31,6 @@ const mapDispatchToProps=(dispatch)=>{
       .then((body)=>{
                //alert(body.msg);
                dispatch({type:'load_order',payload:body.order});
-
        })
       .catch(err=>alert(JSON.stringify(err)));
     },

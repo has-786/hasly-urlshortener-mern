@@ -8,9 +8,9 @@ const prodReducer=(state=[],action)=>{
     switch(action.type)
     {
         case 'add_prod':
-          return state.concat(action.payload);
+          return state.reverse().concat(action.payload).reverse();
         case 'load_prod':
-          return action.payload.products;
+          return action.payload.products.reverse();
         default:
           return state;
     }
@@ -64,10 +64,10 @@ const orderReducer=(state=[],action)=>{
        case 'load_order':
         return action.payload.reverse();
        case 'add_order':
-        return state;
+        return state.reverse().concat(action.payload).reverse();
         default:
-          return state.reverse();
+          return state;
     }
 }
-const reducer=combineReducers({prodReducer,userReducer,cartReducer,orderReducer});
+const reducer=combineReducers({prodReducer,cartReducer,orderReducer});
 export default reducer;

@@ -63,9 +63,11 @@ app.post('/addorder',(req,res)=>{
     price=req.body.price;
     mode=req.body.mode;
     payid=req.body.payid;
+    order_id=req.body.order_id;
+
     timestamp=req.body.timestamp;
 
-    var newOrder=new order({email,cart:cart1,price,mode,payid,timestamp});
+    var newOrder=new order({email,cart:cart1,price,mode,payid,order_id,timestamp});
     newOrder.save((err,order1)=>{ if(err || !order1){console.log(err); res.send({name:"Someting Went Wrong",status:0}); }
                                   else {
                                                       console.log(order1);
@@ -264,5 +266,29 @@ app.post('/localSignin',(req,res,next)=>{
         next();
     });
 }  );
+
+
+app.post('/createorder',(req,res)=>{
+
+const Razorpay = require('razorpay');
+const instance = new Razorpay({
+  key_id:"rzp_test_XvrmRV7qpByPw8",
+  key_secret: "jLX00p3AQUJks2SXwtUqtHac",
+});
+var options = {
+  amount: req.body.amount*100,  // amount in the smallest currency unit
+  currency: "INR",
+  receipt: "order_rcptid_11"
+};
+instance.orders.create(options, function(err, order) {
+  console.log(order);
+  if(!order){res.send({order_id:'fafa'});}
+  res.send({order_id:order.id});
+});
+
+})
+
+
+
 
 app.listen(5000,()=>{console.log('server on')})

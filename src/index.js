@@ -5,6 +5,8 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {Provider} from 'react-redux';
 import store from './store/configStore';
+import {BrowserRouter,Switch,Route} from 'react-router-dom';
+
 import Product from './containers/products';
 import Cart from './containers/cart';
 import Addproduct from './containers/addproducts';
@@ -12,8 +14,7 @@ import Checkout from './containers/checkout';
 import Order from './containers/order';
 import Login from './components/login';
 import Signup from './components/signup';
-
-import {BrowserRouter,Switch,Route} from 'react-router-dom';
+import Home from './components/home';
 
 ReactDOM.render(
   <Provider store={store}>
@@ -26,6 +27,7 @@ ReactDOM.render(
           <Route  path='/order'  component={Order}/>
           <Route  path='/login'  component={Login}/>
           <Route  path='/Signup'  component={Signup}/>
+          <Route  path='/home'  component={Home}/>
 
         </Switch>
       </BrowserRouter>

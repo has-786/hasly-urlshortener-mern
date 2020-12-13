@@ -54,13 +54,15 @@ const mapDispatchToProps=(dispatch)=>{
 
 
       placecashorder:(price,cart,mode)=>{
+        if(price<=1){alert("Minimum amount is Rs. 1"); return false;}
+
         var tempDate = new Date();
         var timestamp = tempDate.getFullYear() + '-' + (tempDate.getMonth()+1) + '-' + tempDate.getDate() +' '+ tempDate.getHours()+':'+ tempDate.getMinutes()+':'+ tempDate.getSeconds();
-        var payid=null;
-        fetch(url+'addorder',{ method:'POST',body:JSON.stringify({email:localStorage.getItem('email'),price,cart,mode,payid,timestamp}),headers:{'Content-type':'application/json'} })
+        var payid=null,order_id=null;
+        fetch(url+'addorder',{ method:'POST',body:JSON.stringify({email:localStorage.getItem('email'),price,cart,mode,payid,order_id,timestamp}),headers:{'Content-type':'application/json'} })
         .then(response=>{ return response.json()})
         .then((body)=>{
-                 //alert(body.msg);
+                 alert(body.msg);
                  dispatch({type:'add_order',payload:body.order})
                  dispatch({type:'clear_cart'});
 
@@ -71,45 +73,53 @@ const mapDispatchToProps=(dispatch)=>{
 
 
       placeonlineorder:(price,cart,mode)=>{
-        var tempDate = new Date();
-        var timestamp = tempDate.getFullYear() + '-' + (tempDate.getMonth()+1) + '-' + tempDate.getDate() +' '+ tempDate.getHours()+':'+ tempDate.getMinutes()+':'+ tempDate.getSeconds();
-        var payid=null;
-
-      let options = {
-        key: "rzp_test_XvrmRV7qpByPw8",
-        amount: price*100, // 2000 paise = INR 20, amount in paisa
-        name: "Hash Paintings",
-        description: "",
-        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcS50VEonvgI1-sTW6CHykn0U_7xk8N2_ntoTusf5VatlP7d4ukU",
-        handler: function(response) {
-        //  alert(response.razorpay_payment_id);
-        fetch(url+'addorder',{ method:'POST',body:JSON.stringify({email:localStorage.getItem('email'),price,cart,mode,payid:response.razorpay_payment_id,timestamp}),headers:{'Content-type':'application/json'} })
+        const email=localStorage.getItem('email');
+        const user=localStorage.getItem('user');
+        if(price<=1){alert("Minimum amount is Rs. 1"); return false;}
+        fetch(url+'createorder',{ method:'POST',body:JSON.stringify({email,amount:price}),headers:{'Content-type':'application/json'} })
         .then(response=>{ return response.json()})
         .then((body)=>{
                  //alert(body.msg);
-                 dispatch({type:'add_order',payload:body.order})
-                 dispatch({type:'clear_cart'});
-         })
-        .catch(err=>alert(JSON.stringify(err)));
+                 const order_id=body.order_id;
 
-        },
-        prefill: {
-          name: "",
-          email: ""
-        },
-        notes: {
-          address: ""
-        },
-        theme: {
-          color: "blue"
-        }
+                 var tempDate = new Date();
+                 var timestamp = tempDate.getFullYear() + '-' + (tempDate.getMonth()+1) + '-' + tempDate.getDate() +' '+ tempDate.getHours()+':'+ tempDate.getMinutes()+':'+ tempDate.getSeconds();
+                 var payid=null;
+                 let options = {
+                    key: "rzp_test_XvrmRV7qpByPw8",
+                    name: "Hash Paintings",
+                    description: "",
+                    amount:price*100,
+                    order_id,
+                    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcS50VEonvgI1-sTW6CHykn0U_7xk8N2_ntoTusf5VatlP7d4ukU",
+                    handler: function(response) {
+                                  fetch(url+'addorder',{ method:'POST',body:JSON.stringify({email:localStorage.getItem('email'),price,cart,mode,payid:response.razorpay_payment_id,order_id,timestamp}),headers:{'Content-type':'application/json'} })
+                                  .then(response=>{ return response.json()})
+                                  .then((body)=>{
+                                    alert(body.msg);
+                                       dispatch({type:'add_order',payload:body.order})
+                                       dispatch({type:'clear_cart'});
+                                     })
+                                  .catch(err=>alert(JSON.stringify(err)));
+                            },
+                            prefill: {
+                                    name: user,
+                                    email: email
+                                  },
+                            notes: {
+                              address: ""
+                            },
+                            theme: {
+                              color: "blue"
+                            }
       };
 
       let rzp = new window.Razorpay(options);
       rzp.open();
-    }
 
+    }).catch(err=>alert(JSON.stringify(err)));
 
+      }
   }
 }
 

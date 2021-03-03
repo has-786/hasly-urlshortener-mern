@@ -1,54 +1,133 @@
-import React, {useState} from 'react';
-import axios from 'axios';
+import React, {useState,useEffect} from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
-import Header from '../components/header';
-import url from '../components/url';
+import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import TextField from '@material-ui/core/TextField';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import {Link} from 'react-router-dom';
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
+import Tab from '@material-ui/core/Tab';
+import Tabs from '@material-ui/core/Tabs';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
+import Header from './header';
+import axios from 'axios'
+import url from '../components/url'
+import addproducts from '../actions/addProducts'
+import {bindActionCreators} from 'redux'
+import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Paper from '@material-ui/core/Paper';
+import {toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+toast.configure()
 
-class Addproduct extends React.Component
+
+
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    boxShadow:'0px 0px 3px 3px green',
+    padding:'30px'
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  tabLink : {
+    display:"flex",
+    alignItems:"center",
+    justifyContent:"center"
+  },
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(1),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+}));
+
+function Addproduct(props)
 {
-  constructor(props){super(props);  this.state={id:Math.max.apply(Math, props.product.map(function(o) { return o.id; }))+1,name:"",price:0,desc:"",imgs:[{name:""}]}}
-render(){
-  return(
-    <div style={{backgroundColor:"cyan"}}>
-    <Header name={this.props.len}/>
+  const classes = useStyles();
+  const email=localStorage.getItem('email');
+  if(email!='syedhasnain9163@gmail.com')props.history.push('/');
+  const [name,setName]=useState("")
+  const [price,setPrice]=useState(0)
+  const [desc,setDesc]=useState("")
+  const [imgs,setImgs]=useState(null)
+  const [loader,setLoader]=useState('none')
 
-    <center><h2 style={{width:'100%',backgroundColor:'green',padding:'10px',color:'white',marginTop:'-20px'}}>Add Product</h2><br></br><br></br>
-    <input type='text' id='1' onChange={(evt)=>this.setState({name:evt.target.value})}/><br></br><br></br>
-    <input type='number' id='2' onChange={(evt)=>this.setState({price:evt.target.value})}/><br></br><br></br>
-    <input type='text'  onChange={(evt)=>this.setState({desc:evt.target.value})}/><br></br><br></br>
-    <input type="file" id="files" name="files"  multiple onChange={(evt)=>this.setState({imgs:evt.target.files})}  /><br></br><br></br>
-    <button  class='btn btn-sm btn-danger'  value='submit' onClick={()=>this.props.add(this.state.name,this.state.desc,this.state.price,this.state.imgs)}>Submit</button><br></br>
-    </center>
-    </div>)
-  }
+  return    <>
+   <Header {...props}/>
+
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+
+      <Paper   elevation={3}  className={classes.paper}>
+      <CircularProgress style={{position:'fixed',top:'70px',display:loader}}/>
+
+        <Avatar className={classes.avatar}>
+          <AddPhotoAlternateIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Add Product
+        </Typography>
+        <form className={classes.form} noValidate>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            label="Name"
+            value={name} onChange={(evt)=>setName(evt.target.value) } />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              label="Description"
+              value={desc} onChange={(evt)=>setDesc(evt.target.value) } />
+
+              <TextField
+                variant="outlined"
+                margin="normal"
+                type='Number'
+                required
+                fullWidth
+                label="Price"
+                value={price} onChange={(evt)=>setPrice(evt.target.value) } />
+              <br /><br /><br />
+              <input type="file" id="files" name="files"  multiple onChange={(evt)=>setImgs(evt.target.files) }  />
+              <br /><br /><br />
+              <Button type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              onClick={(evt)=>{evt.preventDefault(); if(imgs){setLoader('block'); props.action.addproducts(name,desc,price,imgs,props.history.push).then(()=>{setLoader('none');props.history.push('/paintings');}).catch(err=>{setLoader('none'); props.history.push('/signin');});} }}>Submit</Button>
+        </form>
+      </Paper>
+    </Container>
+      </>
+
 }
+
 
 const mapStateToProps=(state)=>{
   return {product:state.prodReducer}
 }
 
 const mapDispatchToProps=(dispatch)=>{
-  return {
-      add:(name,desc,price,imgs)=>{
-
-          var formData=new FormData();
-              formData.append('name',name);
-              formData.append('desc',desc);
-              formData.append('price',price);
-              for(var x = 0; x<imgs.length; x++)
-                  formData.append('imgs', imgs[x])
-
- 	            fetch(url+'insertImg',{ method:'POST',body:formData})
-              .then(response=>{ return response.json()})
-              .then((body)=>{
-                       alert(body.msg);
-                       dispatch({type:'add_prod',payload:body.product});
-               })
-              .catch(err=>alert(JSON.stringify(err)));
-
-               alert("Please Wait!! It may take some time");
-        }
-      }
+  return {action:bindActionCreators({addproducts}, dispatch)}
 }
-export default connect(mapStateToProps,mapDispatchToProps)(withRouter(Addproduct));
+export default connect(mapStateToProps,mapDispatchToProps)(Addproduct);

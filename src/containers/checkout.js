@@ -1,37 +1,91 @@
-import React from 'react';
+import React,{useState} from 'react';
 import {withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 import Header from  '../components/header';
 import url from '../components/url';
+import axios from 'axios'
+import { makeStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
+import Avatar from '@material-ui/core/Avatar';
+import MoneyIcon from '@material-ui/icons/Money';
+import PaymentIcon from '@material-ui/icons/Payment';
+import {bindActionCreators} from 'redux'
+import CircularProgress from '@material-ui/core/CircularProgress';
 
-function Checkout(props){
-var s=0;
+import {loadCart} from '../actions/cart'
+import * as orderActions from '../actions/checkout'
 
-if(props.cart.length==0)props.loadCart();
-props.cart.map(c=>s+=c.price*c.count);
 
-var id=1;
-if(props.order.length)id=Math.max.apply(Math, props.order.map(function(o) { return o.id; }))+1;
-var user=localStorage.getItem('user');
-var email=localStorage.getItem('email');
-if(!user){email=user="";}
-  return  <div>
-  <Header len={props.cart.length}/>
-  <br></br><br></br>
-  <center>
-     <div class='col-lg-12' style={{width:'300px',marginBottom:'20px',padding:'0px',border:'2px solid purple',borderRadius:'10px'}}>
-                <div><b>{user}</b></div><br></br><br></br>
-                <div><b>{email}</b></div><br></br><br></br>
-                <div><p>Rs.&nbsp; <b>{s}</b></p></div><br></br><br></br>
-                <button class='btn btn-success' onClick={()=>{props.placecashorder(s,props.cart,"Cash"); props.history.push('/order'); }}>Cash On Delivery</button><br></br><br></br>
-                <button  class='btn btn-danger' onClick={()=>{props.placeonlineorder(s,props.cart,"Pay Online");props.history.push('/order'); }}>Pay Online</button>
-                <br></br><br></br>
-      </div>
+const useStyles = makeStyles({
+  root: {
+    minWidth: 275,
+    boxShadow:'0px 0px 2px 2px green'
+  },
+  bullet: {
+    display: 'inline-block',
+    margin: '0 2px',
+    transform: 'scale(0.8)',
+  },
+  title: {
+    fontSize: 14,
+  },
+  pos: {
+    marginBottom: 12,
+  },
+});
+
+function Checkout(props) {
+  const classes = useStyles();
+  const bull = <span className={classes.bullet}>•</span>;
+  let s=0;
+
+  if(props.cart.length==0)props.action.loadCart();
+  props.cart.map(c=>s+=c.price*c.count);
+  const [loader,setLoader]=useState('none')
+
+  const user=localStorage.getItem('name');
+  const email=localStorage.getItem('email');
+
+  if(!user){email=user="";props.history.push('/');}
+
+  return (
+    <center>
+
+    <div style={{width:'275px',marginTop:'100px'}}>
+    <center><CircularProgress style={{top:'70px',display:loader}}/></center>
+
+      <Card className={classes.root}>
+        <CardContent>
+          <Typography className={classes.title} color="textPrimary" >
+            {user}
+          </Typography>
+          <Typography className={classes.pos} color="textSecondary" gutterBottom>
+             {email}
+          </Typography>
+          <br />
+          <Typography variant="h5" component="h2">
+               Rs.&nbsp; {s} &nbsp;&nbsp;
+
+          </Typography>
+            <br />
+            <MoneyIcon style={{width:'40px',height:'40px'}} color='primary' onClick={()=>{setLoader('block'); props.action.placecashorder(s,props.cart,"Cash").then(()=>{setLoader('none');props.history.push('/order');}).catch(err=>{setLoader('none');props.history.push('/signin');});  }} />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <PaymentIcon  style={{width:'40px',height:'40px'}} color='secondary' onClick={()=>{setLoader('block'); props.action.placeonlineorder(s,props.cart,"Paid Online",props.history.push).then(()=>setLoader('none')); }} />
+
+        </CardContent>
+        <CardActions>
+
+        </CardActions>
+      </Card>
+    </div>
     </center>
-
-        </div>
+  );
 }
-
 
 
 const mapStateToProps=(state)=>{
@@ -39,88 +93,7 @@ const mapStateToProps=(state)=>{
 }
 
 const mapDispatchToProps=(dispatch)=>{
-  return {
-
-    loadCart:()=>{
-      fetch(url+'loadCart',{ method:'POST',body:JSON.stringify({email:localStorage.getItem('email')}),headers:{'Content-type':'application/json'} })
-      .then(response=>{ return response.json()})
-      .then((body)=>{
-               //alert(body.msg);
-               dispatch({type:'load_cart',payload:{cart:body.cart}});
-       })
-      .catch(err=>alert(JSON.stringify(err)));
-    },
-
-
-
-      placecashorder:(price,cart,mode)=>{
-        if(price<=1){alert("Minimum amount is Rs. 1"); return false;}
-
-        var tempDate = new Date();
-        var timestamp = tempDate.getFullYear() + '-' + (tempDate.getMonth()+1) + '-' + tempDate.getDate() +' '+ tempDate.getHours()+':'+ tempDate.getMinutes()+':'+ tempDate.getSeconds();
-        var payid=null,order_id=null;
-        fetch(url+'addorder',{ method:'POST',body:JSON.stringify({email:localStorage.getItem('email'),price,cart,mode,payid,order_id,timestamp}),headers:{'Content-type':'application/json'} })
-        .then(response=>{ return response.json()})
-        .then((body)=>{
-                 alert(body.msg);
-                 dispatch({type:'add_order',payload:body.order})
-                 dispatch({type:'clear_cart'});
-
-         })
-        .catch(err=>alert(JSON.stringify(err)));
-
-      },
-
-
-      placeonlineorder:(price,cart,mode)=>{
-        const email=localStorage.getItem('email');
-        const user=localStorage.getItem('user');
-        if(price<=1){alert("Minimum amount is Rs. 1"); return false;}
-        fetch(url+'createorder',{ method:'POST',body:JSON.stringify({email,amount:price}),headers:{'Content-type':'application/json'} })
-        .then(response=>{ return response.json()})
-        .then((body)=>{
-                 //alert(body.msg);
-                 const order_id=body.order_id;
-
-                 var tempDate = new Date();
-                 var timestamp = tempDate.getFullYear() + '-' + (tempDate.getMonth()+1) + '-' + tempDate.getDate() +' '+ tempDate.getHours()+':'+ tempDate.getMinutes()+':'+ tempDate.getSeconds();
-                 var payid=null;
-                 let options = {
-                    key: "rzp_test_XvrmRV7qpByPw8",
-                    name: "Hash Paintings",
-                    description: "",
-                    amount:price*100,
-                    order_id,
-                    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcS50VEonvgI1-sTW6CHykn0U_7xk8N2_ntoTusf5VatlP7d4ukU",
-                    handler: function(response) {
-                                  fetch(url+'addorder',{ method:'POST',body:JSON.stringify({email:localStorage.getItem('email'),price,cart,mode,payid:response.razorpay_payment_id,order_id,timestamp}),headers:{'Content-type':'application/json'} })
-                                  .then(response=>{ return response.json()})
-                                  .then((body)=>{
-                                    alert(body.msg);
-                                       dispatch({type:'add_order',payload:body.order})
-                                       dispatch({type:'clear_cart'});
-                                     })
-                                  .catch(err=>alert(JSON.stringify(err)));
-                            },
-                            prefill: {
-                                    name: user,
-                                    email: email
-                                  },
-                            notes: {
-                              address: ""
-                            },
-                            theme: {
-                              color: "blue"
-                            }
-      };
-
-      let rzp = new window.Razorpay(options);
-      rzp.open();
-
-    }).catch(err=>alert(JSON.stringify(err)));
-
-      }
-  }
+  return {action:bindActionCreators({loadCart,...orderActions},dispatch)}
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(withRouter(Checkout));

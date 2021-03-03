@@ -1,56 +1,184 @@
-import React ,{Component} from 'react';
-import {withRouter} from 'react-router-dom';
-import url from '../components/url';
-import Header from '../components/header';
+import React,{useState} from 'react';
+import {useDispatch} from 'react-redux';
+import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import TextField from '@material-ui/core/TextField';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import {Link} from 'react-router-dom';
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
+import Tab from '@material-ui/core/Tab';
+import Tabs from '@material-ui/core/Tabs';
+import Paper from '@material-ui/core/Paper';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
+import axios from 'axios'
+import url from '../components/url'
+import Header from '../containers/header'
+import CircularProgress from '@material-ui/core/CircularProgress';
 
-class Login extends Component{
-	constructor(props){super(props);}
+import {toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+toast.configure()
 
-	fun=(event)=>{
-		event.preventDefault();
-		if(document.getElementById('1').value.length==0 || document.getElementById('2').value.length==0 ){alert('Please Fill The Required Places'); return false;}
-
-		var data={email:document.getElementById('1').value,pass:document.getElementById('2').value };
-		fetch(url+'localSignin',{ method:'POST',body:JSON.stringify(data),headers: {"Content-Type": "application/json" } }).then((response)=>{
-		return response.json()}).then((body)=>{
-      var name=null,email=null;
-      if(body.status==1){name=body.name;email=body.email;}
-      alert(body.msg);
-      localStorage.setItem('user',name);
-      localStorage.setItem('email',email);
-
-      this.props.history.push('/');
-		}).catch(err=>console.log(err));
+function Copyright() {
+  return (
+    <Typography variant="body2" color="textSecondary" align="center">
+      {'Copyright © '}
+      <Link color="inherit" href="https://material-ui.com/">
+        Your Website
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
 }
 
-render()
-{
- return (
- <div>
-      <Header len={"0"}/>
- 			<center><h2 style={{padding:"10px"}}>Login</h2></center>
-			     <br></br><br></br>
-			<center>
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding:'50px',
+    boxShadow:'0px 0px 3px 3px green'
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  tabLink : {
+    display:"flex",
+    alignItems:"center",
+    justifyContent:"center"
+  },
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(1),
 
-    <div id='contain'  style={{width:"300px",backgroundColor:"pink",border:"10px solid green",borderRadius:"30px",padding:"20px"}}>
-	<br></br><br></br>
-				<div><input type = "text" name = "name" id='1' placeholder="Enter your email" required/></div><br></br><br></br>
-				<div><input type = "password" name = "pass" id='2'  placeholder="Ener password" required/></div><br></br>
-				<div><button name = "signup-button" onClick={this.fun.bind(this)} class='btn btn-primary' value = "sign in">Login</button></div><br></br><br></br><br></br>
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+}));
 
-				<div><a href='/signup'><button class='btn btn-warning'>Don't have an account?</button></a></div><br></br><br></br><br></br>
-				<div><a href='/'><button class='btn btn-success'>Back to Home</button></a></div><br></br>
+export default function Signin(props) {
+  const classes = useStyles();
+  const token=localStorage.getItem('token')
+  const [email,setEmail]=useState('')
+  const [password,setPassword]=useState('')
+  const [loader,setLoader]=useState('none')
 
-	</div>
-</center>
-		</div>
+  const dispatch=useDispatch()
+
+  const login=(event)=>{
+    setLoader('block')
+    event.preventDefault();
+    const data={email,pass:password};
+
+    axios.post(url+'/localSignin',data)
+    .then((response)=>{
+      setLoader('none')
+      const body=response.data
+      let email=null,name=null,token=null,path=null;
+
+      if(body.status==1){
+
+        email=body.email;name=body.name;token=body.token;path=body.path;
+        toast.success('Signed in successfully',{autoClose:1500})
+
+				localStorage.setItem('email',email);
+				localStorage.setItem('name',name);
+        localStorage.setItem('token',token);
+
+        props.history.push('/');
+      }
+      else toast.error('Something went wrong',{autoClose:2000});
 
 
-)}
-
+    })
+  //  .catch(err=>toast.error('Something went wrong'+err,{autoClose:1000}) );
+	.catch(err=>{setLoader('none'); toast.error('Something went wrong',{autoClose:2000}); });
 }
 
 
-//export default connect(mapStateToProps, mapDispatchToProps)(App);
 
-export default withRouter(Login);
+  return (
+    <>
+      <Header {...props}/>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+
+        <Paper elevation={3}  className={classes.paper}>
+        <CircularProgress style={{position:'fixed',top:'70px',display:loader}}/>
+
+          <Avatar className={classes.avatar}>
+            <LockOutlinedIcon />
+          </Avatar>
+
+          <Typography component="h1" variant="h5">
+            Sign in
+          </Typography>
+          <form className={classes.form} noValidate>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              value={email}
+              onChange={(evt)=>setEmail(evt.target.value)}
+              autoFocus
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              value={password}
+              onChange={(evt)=>setPassword(evt.target.value)}
+              autoComplete="current-password"
+            />
+
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              onClick={login}
+              className={classes.submit}
+            >
+              Sign In
+            </Button>
+            <Grid container>
+              <Grid item xs>
+                <Link to='/changePassword'>
+                  Forgot password?
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link to="/signup" variant="body2">
+                  Don't have an account?
+                </Link>
+              </Grid>
+            </Grid>
+          </form>
+        </Paper>
+        <Box mt={8}>
+          <Copyright />
+        </Box>
+      </Container>
+    </>
+  );
+}

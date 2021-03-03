@@ -11,11 +11,12 @@ const prodReducer=(state=[],action)=>{
           return state.reverse().concat(action.payload).reverse();
         case 'load_prod':
           return action.payload.products.reverse();
+        case 'del_prod':
+          return state.filter(p=>p.id==action.payload)
         default:
           return state;
     }
 }
-
 
 
 
@@ -57,6 +58,24 @@ const cartReducer=(state=[],action)=>{
 }
 
 
+
+const videoReducer=(state=[],action)=>{
+
+    switch(action.type)
+    {
+       case 'load_video':
+        return action.payload.reverse();
+       case 'add_video':
+        return state.reverse().concat(action.payload).reverse();
+       case 'del_video':
+        return state.filter(s=>s._id!=action.payload);
+        default:
+          return state;
+    }
+}
+
+
+
 const orderReducer=(state=[],action)=>{
 
     switch(action.type)
@@ -65,9 +84,11 @@ const orderReducer=(state=[],action)=>{
         return action.payload.reverse();
        case 'add_order':
         return state.reverse().concat(action.payload).reverse();
+       case 'clear_order':
+        return [];
         default:
           return state;
     }
 }
-const reducer=combineReducers({prodReducer,cartReducer,orderReducer});
+const reducer=combineReducers({prodReducer,cartReducer,orderReducer,videoReducer});
 export default reducer;

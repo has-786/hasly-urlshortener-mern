@@ -7,6 +7,8 @@ const checkAuth = require("./check-auth");
 const cors=require('cors');
 const path=require('path')
 const app = express();
+app.use(express.json({}));
+
 
 require("./routes/shorturl")(app,shortid,validUrl,db.urls)
 require("./routes/getshortenurl")(app,shortid,validUrl,db.urls)
@@ -17,7 +19,6 @@ require("./routes/logins")(app,db.user)
 db.con(mongoose)
 
 app.use(cors())
-app.use(express.json({}));
 
 /*
 app.use("/",getShortenUrlRoute)

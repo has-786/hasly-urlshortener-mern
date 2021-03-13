@@ -1,56 +1,433 @@
-a{
-  text-decoration:None;
-  text-decoration-color:brown;
-  color: #FF0000;
-}
-.about .icon-box {
-  margin-top: 40px;
-}
 
-.about .icon-box .icon {
-  float: left;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 64px;
-  height: 64px;
-  border: 2px solid #8dc2f1;
-  border-radius: 50px;
-  transition: 0.5s;
-}
+  .appbar{
+    background-color:white;
+  }
 
-.about .icon-box .icon i {
-  color: #1977cc;
-  font-size: 32px;
-}
 
-.about .icon-box:hover .icon {
-  background: #1977cc;
-  border-color: #1977cc;
-}
+  .show{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+  }
+  
+  .showicons{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+  
+  
+  .icons{
+    border-radius: 50%;
+    width: 90px;
+    height: 90px;
+    padding: 17px;
+    background-color: white;
+    border: 1px solid #000064;
+    box-shadow: 0px 0px 0px 7px #8b5a2b;
+  }
+  
+  .icons-parent{
+    padding: 30px;
+  
+  }
+  
+  .icon{
+    font-size: 50px;
+    color: #20b2aa;
+  }
+  
+  
+  .icons-parent:hover .icons{
+    background-color:#8b5a2b;
+    color:white;
+    border: 2px solid white;
+    box-shadow: 0px 0px 0px 7px #4cc1bb;
+    transition: all .7s ease;
+  }
+  .icons-parent:hover .icon{
+    color:white;
+    transition: all .6s ease;
+  }
+  
+  
+  .icons2{
+    width: 100px;
+    height: 100px;
+  }
+  
+  
+  @media only screen and (min-width: 600px) {
+  
+  .mainImage {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 600px;
+    position: relative;
+    -webkit-animation: mymove 15s infinite; /* Safari 4.0 - 8.0 */
+    animation: mymove 15s infinite;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+  }
+  #about-our-center-details{
+    padding:30px 0 30px 70px;
+  }
+  #newsletter-submit{
+    margin-left:-40px;
+    margin-top:-4px;
+  }
+  
+  
+  #mainImage-text{
+    padding-left: 10px;
+    margin-top:30%;
+    width:100%;
+    text-shadow: 0 0 15px #20b2aa;
+    font-family:cursive;
+    font-size: 35px;
+    font-weight: bold;
+    color:white;
+    z-index: 3;
+  
+  }
+  #mainImage-button{
+      position: absolute;
+  }
 
-.about .icon-box:hover .icon i {
-  color: #fff;
-}
+  
+  }
+  
+  @media only screen and (max-width: 599px) {
+    #about-our-center-details{
+      padding:30px 0 30px 5px;
+    }
+    
+    .mainImage {
+      display: flex;
+      flex-flow: row wrap;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 300px;
+      position: relative;
+      -webkit-animation: mymove 20s infinite; /* Safari 4.0 - 8.0 */
+      animation: mymove 20s infinite;
+      background-size: 100% 100%;
 
-.about .icon-box .title {
-  margin-left: 85px;
-  font-weight: 700;
-  margin-bottom: 10px;
-  font-size: 18px;
-}
+    }
+    
+    #mainImage-text{
+      z-index: 3;
+      padding-left:10px;
+      width:100%;
+      text-shadow: 0 0 15px #20b2aa;
+      margin-top: 50%;
+      font-family: cursive;
+      font-size: 20px;
+      font-weight: bold;
+      text-shadow: 2px 2px 15px #8b5a2b;
+      color:white;
+    }
+    
+  #mainImage-button{
+    position: absolute;
+  }
 
-.about .icon-box .title a {
-  color: #343a40;
-  transition: 0.3s;
-}
+    #newsletter-submit{
+      margin-left:0px;
+      margin-top:0px;
+    }
+  }
+  
+  
+  
+  /* Standard syntax */
+  @keyframes mymove {
+    0%{opacity: 0;}
+    30%  {opacity: 1;   background: linear-gradient( rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4) ), url('jamkaran1.jpg');}
+    35%  {opacity: 0; }
+    65%  {opacity: 1;    background: linear-gradient( rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4) ), url('jamkaran2.jpg'); }
+    70%  {opacity: 0; }
+    100%  {opacity: 1;    background: linear-gradient( rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4) ), url('karbala1.jpg');   }
+  }
+  
+  .footericons{
+    color:lightgray;
+  }
+  
+  
+  #img-loading {
+    animation: imgload 2s infinite;
+    box-shadow: 0px 0px 5px 10px #8b5a2b;
+    width: 300px;
+    height:300px;
+  }
+  
+  
+  
+  /* Standard syntax */
+  @keyframes imgload {
+        from{opacity: 1;}
+        to  {opacity: 0;}
+  }
+  
+  #about-our-center
+  {
+    width:100%;
+    height:400px;
+    background: linear-gradient( rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0) ), url('jamkaranwall.jpg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+  #about-our-center-details{
+    margin-top:20px;
+    height:400px;
+    width:100%;
+    backdrop-filter: blur(5px);
+  }
+  #about-our-center-details > #heading1{
+    color:'#000064';
+    font-weight: bold;
+    font-family:'Roboto' sans-serif;
+  }
+  #about-our-center-details > #heading2{
+    font-weight: bold;
+    font-weight: sans-serif;
+    color:#8b5a2b;
+    margin-top:-10px;
+    font-size: 35px;
+  }
+  #about-our-center-details > hr{
+    background: linear-gradient(to left, transparent 20%, #000064 100%);
+    margin-top: -10px;
+    border-radius: 10px;
+    height: 3px;
+    float:left;
+    width:150px;
+  }
+  #about-our-center-details > #content{
+    position: relative;
+    font-size: 18px;
+    font-weight: bold;
+    max-width: 400px;
+    font-family:sans-serif;
+    padding:0 10px 0 0;
+  }
+  #about-our-center-details > #learn-more{
+    text-transform: none;
+    background-color: #8b5a2b;
+    padding: 10px 30px 10px 30px;
+    font-family: 'Roboto' sans-serif;
+    color:white;
+    font-size: 15px;
+    border-radius: 30px;
+  }
+  #about-our-center-details > #learn-more:hover{
+    background-color: #000000;
+    
+  }
+  
+  #about-our-services{
+    padding:30px 0 30px 0;
+    height:400px;
+    display:table;
+    width:100%;
+    background: linear-gradient( rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7) ), url('imam1.jpg');
+    background-position:center;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+  
+  #about-our-services-details > #heading1{
+    color:'#000064';
+    font-weight: bold;
+    font-family:'Roboto' sans-serif;
+  }
+  
+  #about-our-services-details>#heading2{
+    font-weight: bold;
+    font-weight: sans-serif;
+    color:#20b2aa;
+    text-shadow: 0px 0px 10px white;
+    font-size: 35px;
+    padding:0 10px 0 0;
+  
+  }
+  
+  #about-our-services-details > hr{
+    background: linear-gradient(to left, transparent 20%, #000064 100%);
+    margin-top: -10px;
+    height: 3px;
+    width:200px;
+  
+  }
+  #about-our-services> div > div > div > #content{
+    font-size: 30px;
+    text-align: center;
+  }
+  #about-our-services> div > div > div >  #content > #uppercase{
+    color:#000064;
+    font-size: 40px;
+    font-weight: bold;
+  
+  }
+  #about-our-services> div > div > div > #content >  #uppercase > #mission{
+    color:#8b5a2b;
+  }
+  
+  
+  .icons-services{
+    z-index: 3px;
+    height: 100px;
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .icons-services > .icon-text{
+    color:#000064;
+    font-family:'Roboto', sans-serif;
+    font-size: 17px;
+  }
+  
+  .icons-services > .icon{
+    transition: transform .8s linear;
+  }
+  .icons-services > .icon:hover{
+    transform: rotateY(360deg);
+  }
+  
+  #about-our-work{ 
+    height:400px;
+    display:table;
+    width:100%;
+    background: linear-gradient( rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6) ), url('thelasthope.jpg');
+    background-position:center top; 
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+  
+  
+  
+  
+  #about-our-work-details > #heading1{
+    margin-top: 30px;
+    font-weight: bold;
+    color:white;
+    font-family:'Roboto' sans-serif;
+  }
+  #about-our-work-details > #heading2{
+    font-weight: bold;
+    font-weight: sans-serif;
+    color:#20b2aa;
+    font-size: 35px;
+  }
+  #about-our-work-details > hr{
+    background: linear-gradient(to left, transparent 20%,  white 100%);
+    margin-top: -10px;
+    height: 3px;
+    width:150px;
+  
+  }
+  
+  
 
-.about .icon-box .title a:hover {
-  color: #1977cc;
-}
-
-.about .icon-box .description {
-  margin-left: 85px;
-  line-height: 24px;
-  font-size: 14px;
-}
+  #about-our-work > center > #learn-more{
+    text-transform: none;
+    background-color: #8b5a2b;
+    padding: 10px 30px 10px 30px;
+    font-family: 'Roboto' sans-serif;
+    color:white;
+    font-size: 15px;
+    border-radius: 30px;
+  }
+  
+  #about-our-work > center > #learn-more:hover{
+    background-color: #000000;
+  }
+  
+  
+  #about-subscribe{ 
+    height:300px;
+    background: url('seagreen.svg');
+    padding: 30px;
+    width:100%;
+  }
+  
+  #about-subscribe-details{
+    margin-top:30px;
+    z-index: 2;
+    padding: 0 0 30px 30px;
+  }
+  
+  #about-subsrcibe-details > #heading1{
+    margin-top: 30px;
+    font-weight: bold;
+    color:white;
+    font-size: 30px;
+    font-family:'Roboto' sans-serif;
+  }
+  #about-subsrcibe-details > #heading2{
+    color:white;
+    font-size: 15px;
+    padding:0 10px 0 0;
+  }
+  
+  
+  #newsletter-submit{
+    text-transform: none;
+    background-color: #000000;
+    padding: 15px 30px 15px 30px;
+    font-family: 'Roboto' sans-serif;
+    color:white;
+    font-size: 15px;
+    border-radius: 30px;
+  }
+  
+  
+  #newsletter-submit:hover{
+    background-color:#8b5a2b;
+  }
+  
+  
+  .rounded-text-box{
+    border-radius: 30px;
+    opacity:0.5;
+    padding: 11px 30px 11px 30px;
+    font-family: 'Roboto',sans-serif;
+    font-size: 20px;
+    width:500px;
+    max-width: 100%;
+    border:1px solid #20b2aa
+  
+  }
+  
+  #about-gallery{
+    padding:30px 0 30px 0;
+    background: linear-gradient( rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3) ), url('seagreen.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+  
+  }
+  
+  
+  
+  .visit-us{
+    text-transform: none;
+    border: 1px solid white;
+    background-color: #8b5a2b;
+    padding: 10px 30px 10px 30px;
+    font-family: 'Roboto' sans-serif;
+    color:white;
+    font-size: 15px;
+    border-radius: 30px;
+  }
+  
+  .visit-us:hover{
+    background-color: #000000;
+  }

@@ -1,7 +1,7 @@
 import React,{createElement,useState,useEffect} from 'react'
 import {useDispatch,useSelector,connect} from 'react-redux';
 import {bindActionCreators} from 'redux'
-
+import useMediaQuery from '@material-ui/core/useMediaQuery'
 import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
 import MailIcon from '@material-ui/icons/Mail';
 import HomeIcon from '@material-ui/icons/Home';
@@ -32,6 +32,7 @@ import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import ChatIcon from '@material-ui/icons/Chat';
 import PersonPinIcon from '@material-ui/icons/PersonPin';
+import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket'
 import CloseIcon from '@material-ui/icons/Close';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
 import GroupIcon from '@material-ui/icons/Group';
@@ -57,9 +58,7 @@ import TextField from '@material-ui/core/TextField';
 import Slide from '@material-ui/core/Slide';
 import {loadCart} from '../actions/cart'
 
-import axios from 'axios'
-import url from '../components/url'
-
+import '../css/home.css'
 import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 toast.configure()
@@ -68,7 +67,7 @@ const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: 'flex',
+    display: 'flex'
   },
     searchBar: {
      position: 'relative',
@@ -83,13 +82,35 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('sm')]: {
       width: `calc(100% - ${drawerWidth}px)`,
       marginLeft: drawerWidth,
-    }
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-    [theme.breakpoints.up('sm')]: {
-      display: 'none',
     },
+    width:'100%'
+  },  
+  menuButton: {
+    marginTop:'10px',
+    float:'right',
+    color:'#8b5a2b',
+  },
+  title: {
+    flexGrow: 1,
+    paddingLeft:'10px',
+    color:'#8b5a2b',
+    fontWeight:'bold',
+  },
+  menulist:{
+    color:'#800080',
+    fontSize:'17px',
+    padding:'0 20px 0 20px',
+    fontFamily:'serif'
+  },
+  
+  logo:{
+    width:'50px', 
+    height:'50px',
+    padding:0
+  },
+  menulistContainer:{
+    float:'right',
+    display:'block'
   },
   // necessary for content to be below app bar
   toolbar: theme.mixins.toolbar,
@@ -115,13 +136,11 @@ const signout=(push,dispatch)=>
    push('/signin')
 }
 
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
-
 
 function Header(props)
 {
+  const matches = useMediaQuery('(min-width:600px)');
+
     //const { window } = props;
     const container = document.body;//window !== undefined ? () => window().document.body : undefined;
     const classes = useStyles();
@@ -155,7 +174,7 @@ function Header(props)
      },[])
 
 
-     let menulist=[['Paintings','/paintings',BrushIcon],['Cart','/cart',ShoppingCartIcon],['Orders','/order',ReceiptIcon],['Videos','/video',VideoLibraryIcon]]
+     let menulist=[['Home','/',HomeIcon],['Products','/products',ShoppingBasketIcon],['Cart','/cart',ShoppingCartIcon],['Orders','/order',ReceiptIcon],['Videos','/video',VideoLibraryIcon]]
      if(!email)menulist?.push(['Sign in','/signin',PersonPinIcon])
      else menulist.push(['Sign out','/signin',PersonPinIcon])
      const adminMenulist=[['Add Paintings','/addpainting',AddPhotoAlternateIcon],['Add Videos','/addvideo',VideoCallIcon],
@@ -173,13 +192,14 @@ function Header(props)
              <ListItem button key={items[0]} onClick={()=>{(items[0]==='Sign out')?signout(props.history.push,dispatch):props.history.push(items[1])}}>
                {
                  (items[0]==='Cart')?
-                         <ListItemIcon  style={{color:'green'}}>
+                         <ListItemIcon  style={{color:'#8b5a2b'}}>
                            <Badge badgeContent={props.cart?.length} color="secondary">
                              <ShoppingCartIcon/>
                            </Badge>
                          </ListItemIcon>
                        :
-               <ListItemIcon style={{color:'green'}}>{createElement(items[2], {})}</ListItemIcon>
+                       
+               <ListItemIcon style={{color:'#8b5a2b'}}>{createElement(items[2], {})}</ListItemIcon>
              }
                <ListItemText primary={items[0]} />
              </ListItem>
@@ -191,7 +211,7 @@ function Header(props)
               {(email==='syedhasnain9163@gmail.com')?
                   adminMenulist.map((items, index) => (
                    <ListItem button key={items[0]} onClick={()=>props.history.replace(items[1])}>
-                     <ListItemIcon style={{color:'green'}}>{createElement(items[2], {})}</ListItemIcon>
+                     <ListItemIcon style={{color:'#8b5a2b'}}>{createElement(items[2], {})}</ListItemIcon>
                      <ListItemText primary={items[0]} />
                    </ListItem>
                  ))
@@ -204,34 +224,53 @@ function Header(props)
 
   return <div >
 
-  <AppBar position="static" className={classes.appBar}>
-    <Tabs
-    style={{display:'flex',backgroundColor:'white'}}
-    variant="fullWidth"
-    indicatorColor="default"
-    textColor="default"
-    aria-label="icon tabs example"
-   >
-      <Tab icon={<HomeIcon style={{color:'green'}}/>}  onClick={()=>props.history.push('/')} aria-label="home" />
-      <Tab icon={<BrushIcon style={{color:'green'}}/>}  onClick={()=>props.history.push('/paintings')} aria-label="brush" />
-      <Tab icon={<IconButton aria-label="Shopping Cart Items" color="inherit">
-              <Badge badgeContent={props.cart?.length} color="secondary">
-                <ShoppingCartIcon style={{color:'green'}} />
-              </Badge>
-            </IconButton>}  onClick={()=>props.history.push('/cart')} aria-label="cart" />
-      <Tab icon={<VideoLibraryIcon style={{color:'green'}}/>}  onClick={()=>props.history.push('/video')} aria-label="video" />
-      <Tab icon={<MenuIcon style={{color:'green'}}/>}
-        aria-label="open drawer"
-        edge="start"
-        onClick={handleDrawerToggle}
-        className={classes.menuButton}
-      />
-    </Tabs>
+  <AppBar position="static">
+   
+  <Toolbar class='appbar'  id='toolbar'>
+  <IconButton style={{borderRadius:'0px'}}>
+  <Avatar src='alqayem.jpg' className={classes.logo}/>
+    
+  <Typography variant="h6" className={classes.title} style={{ marginRight:(matches)?'750px':0}}>
+      Star Furnitures
+    </Typography>
+    
+          {
+            (matches)? <>
+            {menulist.map(item=>{  
+            return (item[0]==='Cart')?
+            
+            <IconButton style={{color:'#8b5a2b',borderRadius:0}}  id='menulist'  className={classes.menulist} onClick={()=>props.history.push(item[1])}>
+                             <Badge badgeContent={props.cart?.length} color="secondary">
+                              <ShoppingCartIcon/>
+                             </Badge>
+            </IconButton>   
+            : 
+            <IconButton  id='menulist' style={{color:'#8b5a2b',borderRadius:0}} className={classes.menulist} onClick={()=>props.history.push(item[1])} >{createElement(item[2], {})}</IconButton>
+            
+            })}
+          
+            <Button class='visit-us'>Visit us</Button>
+            </>   
+            :null
+          }
+          
+  
+        </IconButton>
+
+        {
+         (!matches)?<IconButton className={classes.menuButton}  color="inherit" aria-label="menu" >
+          <MenuIcon style={{width:'30px',height:'30px'}} onClick={handleDrawerToggle}/>
+
+          </IconButton>
+          :null
+        }
+  </Toolbar>
   </AppBar>
   <nav className={classes.drawer}  aria-label="mailbox folders">
     <center><CircularProgress id='loader' style={{marginTop:'100px',display:'none'}}/></center>
 
     {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+    {(!matches)? <>
     <Hidden smUp implementation="css">
       <Drawer
         container={container}
@@ -260,6 +299,9 @@ function Header(props)
         {drawer}
       </Drawer>
     </Hidden>
+    </>
+    :null
+  }
   </nav>
 
   </div>

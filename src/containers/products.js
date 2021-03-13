@@ -4,12 +4,12 @@ import Header from './header';
 import axios from 'axios';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
-import '../css/product.css';
 import url from '../components/url';
 import * as cartActions from '../actions/cart'
 import {bindActionCreators} from 'redux'
 import TextField from '@material-ui/core/TextField'
 import CircularProgress from '@material-ui/core/CircularProgress';
+import '../css/product.css';
 
 
 
@@ -36,23 +36,23 @@ import CircularProgress from '@material-ui/core/CircularProgress';
    if(search.trim()=='')arr=props.product;
    else arr=props.product.filter(c=>c.name.toLowerCase().includes(search.trim().toLowerCase()) || c.desc.toLowerCase().includes(search.trim().toLowerCase()));
 
+   const token=localStorage.getItem('token')
   return <div >
-              <Header {...props} />
-
+ <div style={{backgroundColour:'white',position:'fixed',width:'100%',zIndex:10}}>
+                <Header {...props} />
+             </div>
               <div class='body'>
 
-                <div style={{backgroundColor:'green',marginTop:'0px',padding:'10px'}}>
-                  <span style={{color:'white'}}>Paintings</span>
-                  <input type="text" placeholder="Search Paintings"  style={{float:'right'}} value={search} onChange={(evt)=>{ setSearch(evt.target.value)}}  />
+                <div style={{backgroundColor:'#8b5a2b',marginTop:'0px',padding:'15px'}}>
+                  <span style={{color:'white',fontSize:'25px'}}>Furnitures</span>
+                  <input type="text" placeholder="Search Furnitures"  style={{float:'right',fontSize:'15px',padding:'5px 5px 5px 7px',borderRadius:'30px'}} value={search} onChange={(evt)=>{ setSearch(evt.target.value)}}  />
                 </div>
                 <center><CircularProgress style={{top:'70px',display:loader}}/></center>
 
                 <br></br>  <br></br>  <br></br>
 
-                <div class='show'>
-                {arr.map(p=>
-                    <Showproduct {...props} {...p} inccartproduct={props.action.inccartproduct} deccartproduct={props.action.deccartproduct} removecartproduct={props.action.removecartproduct}/>
-                )}
+                <div  style={{display:'flex',flexFlow:'row wrap'}}>
+                {arr.map(p=>  <Showproduct {...props} {...p} {...{token}} inccartproduct={props.action.inccartproduct} deccartproduct={props.action.deccartproduct} removecartproduct={props.action.removecartproduct}/>    )}
                 </div>
               </div>
         </div>

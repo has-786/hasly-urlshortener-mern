@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
     padding:'50px',
-    boxShadow:'0px 0px 3px 3px green'
+    boxShadow:'0px 0px 3px 3px #8b5a2b'
   },
   avatar: {
     margin: theme.spacing(1),

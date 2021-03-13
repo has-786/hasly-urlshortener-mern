@@ -34,11 +34,12 @@ import loadVideos from '../actions/video'
 
 
   return <div >
-              <Header {...props} />
-
+ <div style={{backgroundColour:'white',position:'fixed',width:'100%',zIndex:10}}>
+                <Header {...props} />
+             </div>
               <div class='body'>
 
-                  <div style={{backgroundColor:'green',marginTop:'0px',padding:'10px'}}>
+                  <div style={{backgroundColor:'#8b5a2b',marginTop:'0px',padding:'10px'}}>
                     <span style={{color:'white'}}>Videos</span>
                     <input type="text" placeholder="Search Videos"  style={{float:'right'}} value={search} onChange={(evt)=>{ setSearch(evt.target.value)}}  />
                   </div>

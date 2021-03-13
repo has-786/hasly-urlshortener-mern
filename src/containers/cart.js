@@ -32,26 +32,29 @@ toast.configure()
    var arr=[];
    if(search.trim()=='')arr=props.cart;
    else arr=props.cart.filter(c=>c.name.toLowerCase().includes(search.trim().toLowerCase()) || c.desc.toLowerCase().includes(search.trim().toLowerCase()));
+   const token=localStorage.getItem('token')
 
   return <div>
-  <Header {...props} />
 
+            <div style={{backgroundColour:'white',position:'fixed',width:'100%',zIndex:10}}>
+                <Header {...props} />
+             </div>
   <div class='body'>
 
-      <div style={{backgroundColor:'green',marginTop:'0px',padding:'10px'}}>
-        <span style={{color:'white'}}>My Cart</span>
-        <input type="text" placeholder="Search Cart" name="search" style={{float:'right'}} value={search} onChange={(evt)=>setSearch(evt.target.value)}  />
-      </div>
+        <div style={{backgroundColor:'#8b5a2b',marginTop:'0px',padding:'15px'}}>
+           <span style={{color:'white',fontSize:'25px'}}>Cart</span>
+           <input type="text" placeholder="Search Cart"  style={{float:'right',fontSize:'15px',padding:'5px 5px 5px 7px',borderRadius:'30px'}} value={search} onChange={(evt)=>{ setSearch(evt.target.value)}}  />
+        </div>
       <center><CircularProgress style={{top:'70px',display:loader}}/></center>
 
       <br></br>
 
                 {(s>=1)?<Button variant="contained" onClick={()=>props.history.push('/checkout')} color='secondary' style={{float:'right'}}>Checkout</Button>:null}
                 <div style={{padding:'5px'}}><b>Total Amount:</b><Button color='primary'>Rs.&nbsp; {s}</Button></div>
-                <br></br><br></br><br></br>
+                <br />
                 <div class='show'>
                   {arr.map(c=>
-                      <Showproduct {...props} {...c} inccartproduct={props.action.inccartproduct} deccartproduct={props.action.deccartproduct}   removecartproduct={props.action.removecartproduct}/>
+                      <Showproduct {...props} {...c} {...{token}} inccartproduct={props.action.inccartproduct} deccartproduct={props.action.deccartproduct}   removecartproduct={props.action.removecartproduct}/>
                     )}
                 </div>
    </div>

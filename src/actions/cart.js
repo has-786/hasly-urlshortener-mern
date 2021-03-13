@@ -28,7 +28,8 @@ export function loadCart(push,caller){
                     const body=response.data
                     dispatch({type:'load_cart',payload:{cart:body.cart}});
            })
-           .catch(err=>(caller!='Header')?push('/signin'):null);
+       //    .catch(err=>(caller!='Header')?push('/signin'):null);
+       .catch(err=>{});
    }
 }
 

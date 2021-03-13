@@ -13,10 +13,10 @@ import IndeterminateCheckBoxRoundedIcon from '@material-ui/icons/IndeterminateCh
 const useStyles = makeStyles({
   root: {
     maxWidth: '100%',
-    boxShadow: "0px 0px 3px 3px green"
+    boxShadow: "0px 0px 3px 3px #8b5a2b"
   },
   media: {
-    height: 300,
+    height: 400,
     width:'100%'
   },
 });
@@ -24,11 +24,11 @@ const useStyles = makeStyles({
 export default function Showvideo(props){
   const classes = useStyles();
 
- return  <div style={{width:'300px',padding:'20px'}}>
+ return  <div style={{width:'500px',maxWidth:'100%',padding:'40px'}}>
     <Card className={classes.root}>
       <CardActionArea>
         <CardMedia  className={classes.media}>
-          <iframe width="100%"  height="300" src={props.link} allowfullscreen="allowfullscreen"></iframe>
+          <iframe width="100%"  height="400" src={props.link} allowfullscreen="allowfullscreen"></iframe>
         </CardMedia>
         <CardContent>
           <Typography gutterBottom variant="h6" component="h6">

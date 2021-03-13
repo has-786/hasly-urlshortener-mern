@@ -38,7 +38,7 @@ app.post('/insertImg',checkAuth,multer({storage}).array('imgs'),function(req, re
   price=req.body.price;
   type=req.body.type;
 
-  files.map(f=>{ paths.push('http://localhost:5000/hashuploads/'+f.filename);  })
+  files.map(f=>{ paths.push(f.filename);  })
 
   var newProduct=new product({name,desc,price,imgs:paths,type});
   newProduct.save((err,product1)=>{ if(err){console.log(err); res.send({name:"Someting Went Wrong",status:0}); }
@@ -371,6 +371,17 @@ app.post('/changePassword',(req,res)=>{
 	});
 
 
+  app.get('/uploads/:img/:token',(req,res)=>{
+    try {
+        const token = req.params.token
+        const decoded = jwt.verify(token, 'access_token_secret');
+    } catch (error) {
+        return res.status(401).json({
+            msg: 'You are not authorized!!!'
+        });
+    }
+        res.download('./uploads/'+req.params.img)
+  })
 
 app.post('/createorder',checkAuth,(req,res)=>{
 
@@ -391,7 +402,7 @@ instance.orders.create(options, function(err, order) {
 });
 
 })
-
+/*
 const tf = require('@tensorflow/tfjs');
 const mobilenet = require('@tensorflow-models/mobilenet');
 const tfnode = require('@tensorflow/tfjs-node');
@@ -411,6 +422,7 @@ const imageClassification = async path => {
 }
 
 imageClassification('C:\Users\SYED MD HASNAIN JAH\Pictures\african_parrot.jpg')
+*/
 
 
 app.listen(5000,()=>{console.log('server on')})

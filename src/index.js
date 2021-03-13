@@ -1,6 +1,5 @@
 import React,{useContext,useReducer} from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import reportWebVitals from './reportWebVitals';
 import {Provider} from 'react-redux';
 import store from './store/configStore';
@@ -8,10 +7,8 @@ import {BrowserRouter,Switch,Route} from 'react-router-dom';
 
 import Home from './components/home';
 import Product from './containers/products';
-import Disk from './containers/disks';
 import Cart from './containers/cart';
 import Addproduct from './containers/addproducts';
-import Adddisk from './containers/adddisks';
 import Addvideo from './containers/addvideos';
 import Checkout from './containers/checkout';
 import Order from './containers/order';
@@ -29,11 +26,9 @@ ReactDOM.render(
       <BrowserRouter>
         <Switch>
           <Route  exact path='/' component={Home}/>
-          <Route  path='/paintings' component={Product}/>
-          <Route  path='/disk' component={Disk}/>
           <Route  path='/addpainting'  component={Addproduct}/>
-          <Route  path='/adddisk'  component={Adddisk}/>
           <Route  path='/addvideo'  component={Addvideo}/>
+          <Route  path='/products' component={Product}/>
           <Route  path='/cart'  component={Cart}/>
           <Route  path='/video'  component={Video}/>
           <Route  path='/checkout'  component={Checkout}/>

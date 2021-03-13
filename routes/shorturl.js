@@ -1,8 +1,7 @@
-module.exports=(express,shortid,validUrl,Url)=>{
+module.exports=(app,shortid,validUrl,Url)=>{
 
-    const shortUrlRoute = express.Router();
 
-    shortUrlRoute.get("/", async (req, res)=>{
+    app.get("/set", async (req, res)=>{
     
        const baseUrl='https://hasly.herokuapp.com'
        const longUrl = req.query.url;
@@ -22,7 +21,7 @@ module.exports=(express,shortid,validUrl,Url)=>{
                 if(url)return  res.status(200).send({status:1,url})
                 else
                 {
-                    const shortUrl = baseUrl + "?url=" + urlCode
+                    const shortUrl = baseUrl + "/g?url=" + urlCode
                     url  = new Url({name,email,longUrl,shortUrl,urlCode,clickCount: 0})
                     await url.save()
                     return res.status(201).json({status:1,url})
@@ -36,6 +35,5 @@ module.exports=(express,shortid,validUrl,Url)=>{
         else res.status(400).send({status:0,msg:"Invalid URL. Please enter a valid url for shortening."})  
     });
     
-    return shortUrlRoute;
 }
 

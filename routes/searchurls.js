@@ -1,8 +1,7 @@
-module.exports=(express,Url)=>{
+module.exports=(app,Url)=>{
 
-    const searchRoute = express.Router();
 
-    searchRoute.post('/searchUrls',(req,res)=>{
+    app.post('/searchUrls',(req,res)=>{
         console.log(req.body)
         const searchstring=req.body.searchstring
         console.log(searchstring)
@@ -15,6 +14,5 @@ module.exports=(express,Url)=>{
         }
     })
 
-    return searchRoute
 
 }

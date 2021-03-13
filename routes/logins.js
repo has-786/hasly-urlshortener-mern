@@ -1,9 +1,9 @@
-module.exports=(express,user)=>{
-    const loginRoute = express.Router();
+module.exports=(app,user)=>{
+
 	const bcrypt=require('bcrypt')
 	const jwt=require('jsonwebtoken')
 
-    loginRoute.post('/localSignup',(req,res)=>{
+    app.post('/localSignup',(req,res)=>{
 
 	const email=req.body.email;
 	const name=req.body.name;
@@ -35,7 +35,7 @@ module.exports=(express,user)=>{
   });
 
 
-  loginRoute.post('/localSignin',(req,res,next)=>{
+  app.post('/localSignin',(req,res,next)=>{
 	email=req.body.email;
 	pass=req.body.pass;
 
@@ -67,7 +67,7 @@ module.exports=(express,user)=>{
 });
 
 
-loginRoute.post('/forgotPassword',(req,res)=>{
+app.post('/forgotPassword',(req,res)=>{
 	const email=req.body.email;
 	console.log(email,appMail);
 	const pat=email.substring(email.lastIndexOf('.'));
@@ -91,7 +91,7 @@ loginRoute.post('/forgotPassword',(req,res)=>{
 
 
 
-loginRoute.post('/changePassword',(req,res)=>{
+app.post('/changePassword',(req,res)=>{
 
 	const email=req.body.email;
 	const password=req.body.password;
@@ -110,6 +110,5 @@ loginRoute.post('/changePassword',(req,res)=>{
 	});
 
 
-    return loginRoute;
 
 }

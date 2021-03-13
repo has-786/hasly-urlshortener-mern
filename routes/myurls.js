@@ -1,9 +1,8 @@
 
-module.exports=(express,Url,checkAuth)=>{
+module.exports=(app,Url,checkAuth)=>{
 
-    const myurlsRoute = express.Router();
 
-    myurlsRoute.get("/myurls",checkAuth,(req, res)=>{
+    app.get("/myurls",checkAuth,(req, res)=>{
        const email=req.userData.email
         Url.find({email})
         .then(myurls=>{
@@ -13,6 +12,5 @@ module.exports=(express,Url,checkAuth)=>{
        .catch(err=>res.send({status:0}))
     });
     
-    return myurlsRoute;
 }
 

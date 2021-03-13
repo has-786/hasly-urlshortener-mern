@@ -5,24 +5,28 @@ const shortid = require("shortid");
 const validUrl = require("valid-url");
 const checkAuth = require("./check-auth");
 const cors=require('cors');
-const shortUrlRoute = require("./routes/shorturl")(express,shortid,validUrl,db.urls)
-const getShortenUrlRoute = require("./routes/getshortenurl")(express,shortid,validUrl,db.urls)
-const myUrlsRoute = require("./routes/myurls")(express,db.urls,checkAuth)
-const searchRoute = require("./routes/searchurls")(express,db.urls)
-const loginRoute = require("./routes/logins")(express,db.user)
+const path=require('path')
+const app = express();
+
+require("./routes/shorturl")(app,shortid,validUrl,db.urls)
+require("./routes/getshortenurl")(app,shortid,validUrl,db.urls)
+require("./routes/myurls")(app,db.urls,checkAuth)
+require("./routes/searchurls")(app,db.urls)
+require("./routes/logins")(app,db.user)
 
 db.con(mongoose)
 
-const app = express();
 app.use(cors())
 app.use(express.json({}));
 
+/*
 app.use("/",getShortenUrlRoute)
 app.use("/set", shortUrlRoute);
 app.use("/", myUrlsRoute);
 app.use("/", searchRoute);
-app.use("/", loginRoute);
+app.use("/", loginRoute);*/
+app.use('/',express.static(path.join(__dirname, 'client','build')))
+app.get('/',(req,res)=>{res.sendFile(path.join(__dirname,'client','build','index.html'));})
 
-
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 8001;
 app.listen(PORT, () => console.log("Server is listening on port " + PORT));

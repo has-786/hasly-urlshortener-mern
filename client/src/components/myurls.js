@@ -70,11 +70,14 @@ export default function Myurls(props) {
       <br /><br />
       {
          (myurls.length==0)?
-         <div><br /><br />No urls to show</div>
+         <div ><br /><br />No urls to show</div>
           : 
-          myurls.map(urlobj=>{
+          <div style={{display:'flex',flexFlow:'row wrap',padding:'10px',justifyContent:'flex-start'}}>
+         { myurls.map(urlobj=>{
             return <Showurl {...{urlobj,email}}/>
           })
+        }
+          </div>
          
 
 

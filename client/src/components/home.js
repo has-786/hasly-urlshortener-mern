@@ -91,7 +91,7 @@ function Home(props) {
       {
         fetchedUrls.map(url=>{
           return <ListItem button>
-                    <ListItemText style={{color:'#00c400'}} primary={url.name} secondary={url.longUrl} onClick={()=>{setSearch(""); setFetchedUrls([]); setUrlobj(url);} }/>
+                    <ListItemText style={{color:'purple'}} primary={url.name} secondary={url.longUrl} onClick={()=>{setSearch(""); setFetchedUrls([]); setUrlobj(url);} }/>
                   </ListItem>
         })
       }

@@ -10,7 +10,8 @@ const useStyles = makeStyles({
       width:'400px',
       maxWidth:'90%',
       height:'100%',
-      boxShadow: "0px 0px 8px 8px #00c400"
+      boxShadow: "0px 0px 8px 8px purple",
+      margin:'15px'
     },
     value:{
         color:'#00c400',

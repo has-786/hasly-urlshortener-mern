@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
     padding:'50px',
-    boxShadow:'0px 0px 5px 5px #00c400'
+    boxShadow:'0px 0px 5px 5px purple'
   },
   avatar: {
     margin: theme.spacing(1),
@@ -156,22 +156,23 @@ export default function Signin(props) {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link to='/changePassword'>
+                <Link to='/changePassword' style={{textDecoration:'none'}}>
                   Forgot password?
                 </Link>
               </Grid>
               <Grid item>
-                <Link to="/signup" variant="body2">
+                <Link to="/signup" style={{textDecoration:'none'}} variant="body2">
                   Don't have an account?
                 </Link>
               </Grid>
             </Grid>
           </form>
+          <Link to="/" style={{textDecoration:'none',marginTop:'10px'}} variant="body2">
+                  Back to Home
+                </Link>
         </Paper>
         <Box mt={8}>
-        <Link to="/" variant="body2">
-                  Back to Home
-        </Link>
+       
         </Box>
       </Container>
     </>

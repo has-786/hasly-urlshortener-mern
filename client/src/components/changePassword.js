@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    boxShadow:'0px 0px 5px 5px #00c400',
+    boxShadow:'0px 0px 5px 5px purple',
     padding:'30px'
   },
   avatar: {
@@ -223,9 +223,7 @@ export default function Changepassword(props) {
           </Grid>
         </form>
       </Paper>
-      <Box mt={8}>
-        <Copyright />
-      </Box>
+      
     </Container>
   );
 }

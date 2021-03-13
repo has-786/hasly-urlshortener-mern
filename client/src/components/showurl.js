@@ -14,7 +14,7 @@ const useStyles = makeStyles({
       margin:'15px'
     },
     value:{
-        color:'#00c400',
+        color:'purple',
         fontSize:'17px',
         wordBreak: 'break-all'
     },

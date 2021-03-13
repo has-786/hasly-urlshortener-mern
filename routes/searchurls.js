@@ -8,7 +8,8 @@ module.exports=(express,Url)=>{
         console.log(searchstring)
         if(searchstring==='')res.send({urls:[],status:1})
         else{
-        Url.find({$or:[{longUrl:{$regex:`.*${searchstring.toLowerCase()}.*`,$options:'i'}},{shortUrl:{$regex:`.*${searchstring.toLowerCase()}.*`,$options:'i'}}]})
+        Url.find({$or:[{longUrl:{$regex:`.*${searchstring.toLowerCase()}.*`,$options:'i'}},{shortUrl:{$regex:`.*${searchstring.toLowerCase()}.*`,$options:'i'}},
+        {name:{$regex:`.*${searchstring.toLowerCase()}.*`,$options:'i'}}]})
         .then(urls=>{console.log(urls); res.send({urls,status:1});})
         .catch(err=>res.send({status:0}) )
         }

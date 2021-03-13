@@ -14,11 +14,11 @@ export default function Footer({props,email})
 {
     return (email)?
    
-    <Fab style={{width:'30px',height:'30px',float:'right',marginTop:'15px'}}>
+    <Fab style={{width:'35px',height:'35px',float:'right',marginTop:'15px'}}>
         <MeetingRoomIcon color='secondary' style={{width:'30px',height:'30px'}} onClick={signout.bind(this,props)}/>
     </Fab>
     :
-    <Fab style={{width:'30px',height:'30px',float:'right',marginTop:'15px'}}>
+    <Fab style={{width:'35px',height:'35px',float:'right',marginTop:'15px'}}>
         <PersonPinIcon color='secondary' style={{width:'30px',height:'30px'}} onClick={()=>props.history.push('/signin')}/>
     </Fab>
     

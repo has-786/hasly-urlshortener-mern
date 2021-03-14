@@ -26,8 +26,14 @@ app.use("/set", shortUrlRoute);
 app.use("/", myUrlsRoute);
 app.use("/", searchRoute);
 app.use("/", loginRoute);*/
-app.use('/',express.static(path.join(__dirname, 'client','build')))
-app.get('/',(req,res)=>{res.sendFile(path.join(__dirname,'client','build','index.html'));})
 
+const routes=['/','/addurls','/myurls','/signin','/signup','/changePassword']
+
+routes.map(r=>{
+        
+    app.use(r,express.static(path.join(__dirname, 'client','build')))
+    app.get(r,(req,res)=>{res.sendFile(path.join(__dirname,'client','build','index.html'));})
+
+})
 const PORT = process.env.PORT || 8001;
 app.listen(PORT, () => console.log("Server is listening on port " + PORT));

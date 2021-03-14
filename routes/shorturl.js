@@ -1,7 +1,7 @@
-module.exports=(app,shortid,validUrl,Url)=>{
+module.exports=(router,shortid,validUrl,Url)=>{
 
 
-    app.get("/set", async (req, res)=>{
+    router.get("/set", async (req, res)=>{
     
        const baseUrl='https://hasly.herokuapp.com'
        const longUrl = req.query.url;

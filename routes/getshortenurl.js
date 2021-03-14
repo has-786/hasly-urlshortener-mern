@@ -1,6 +1,6 @@
-module.exports=(app,shortid,validUrl,Url)=>{
+module.exports=(router,shortid,validUrl,Url)=>{
 
-    app.get('/g', async (req, res) => {
+    router.get('/g', async (req, res) => {
         
         const shortUrlCode = req.query.url;
         if(!shortUrlCode)return res.status(400).send("Please enter correct url")

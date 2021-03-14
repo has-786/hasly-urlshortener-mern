@@ -50,7 +50,7 @@ export default function Myurls(props) {
 
   useEffect(()=>{
 
-      secureAxios.get('myurls')
+      secureAxios.get('api/myurls')
       .then(response=>{
           const body=response.data
           if(body.status==1){

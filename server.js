@@ -9,23 +9,21 @@ const path=require('path')
 const app = express();
 app.use(express.json({}));
 
-
-require("./routes/shorturl")(app,shortid,validUrl,db.urls)
-require("./routes/getshortenurl")(app,shortid,validUrl,db.urls)
-require("./routes/myurls")(app,db.urls,checkAuth)
-require("./routes/searchurls")(app,db.urls)
-require("./routes/logins")(app,db.user)
+const router=express.Router()
+require("./routes/shorturl")(router,shortid,validUrl,db.urls)
+require("./routes/getshortenurl")(router,shortid,validUrl,db.urls)
+require("./routes/myurls")(router,db.urls,checkAuth)
+require("./routes/searchurls")(router,db.urls)
+require("./routes/logins")(router,db.user)
 
 db.con(mongoose)
 
 app.use(cors())
 
-/*
-app.use("/",getShortenUrlRoute)
-app.use("/set", shortUrlRoute);
-app.use("/", myUrlsRoute);
-app.use("/", searchRoute);
-app.use("/", loginRoute);*/
+
+app.use("/",router)
+app.use("/myurls", router);
+app.use("/addurls", router);
 
 const routes=['/','/addurls','/myurls','/signin','/signup','/changePassword']
 

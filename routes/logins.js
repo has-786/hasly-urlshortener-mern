@@ -1,11 +1,11 @@
 const checkAuth = require('../check-auth');
 
-module.exports=(app,user)=>{
+module.exports=(router,user)=>{
 
 	const bcrypt=require('bcrypt')
 	const jwt=require('jsonwebtoken')
 
-    app.post('/localSignup',(req,res)=>{
+    router.post('/localSignup',(req,res)=>{
 
 	const email=req.body.email;
 	const name=req.body.name;
@@ -37,7 +37,7 @@ module.exports=(app,user)=>{
   });
 
 
-  app.post('/localSignin',(req,res,next)=>{
+  router.post('/localSignin',(req,res,next)=>{
 	email=req.body.email;
 	pass=req.body.pass;
 
@@ -69,7 +69,7 @@ module.exports=(app,user)=>{
 });
 
 
-app.post('/forgotPassword',(req,res)=>{
+router.post('/forgotPassword',(req,res)=>{
 	const email=req.body.email;
 	console.log(email,appMail);
 	const pat=email.substring(email.lastIndexOf('.'));
@@ -93,7 +93,7 @@ app.post('/forgotPassword',(req,res)=>{
 
 
 
-app.post('/changePassword',(req,res)=>{
+router.post('/changePassword',(req,res)=>{
 
 	const email=req.body.email;
 	const password=req.body.password;
@@ -112,7 +112,7 @@ app.post('/changePassword',(req,res)=>{
 	});
 
 
-	app.get('/isloggedin',checkAuth,(req,res)=>{
+	router.get('/isloggedin',checkAuth,(req,res)=>{
 		res.send({status:1})
 	})
 

@@ -1,8 +1,8 @@
 
-module.exports=(app,Url,checkAuth)=>{
+module.exports=(router,Url,checkAuth)=>{
 
 
-    app.get("/myurls",checkAuth,(req, res)=>{
+    router.get("/api/myurls",checkAuth,(req, res)=>{
        const email=req.userData.email
         Url.find({email})
         .then(myurls=>{

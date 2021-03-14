@@ -1,7 +1,7 @@
-module.exports=(app,Url)=>{
+module.exports=(router,Url)=>{
 
 
-    app.post('/searchUrls',(req,res)=>{
+    router.post('/searchUrls',(req,res)=>{
         console.log(req.body)
         const searchstring=req.body.searchstring
         console.log(searchstring)

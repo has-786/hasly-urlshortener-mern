@@ -1,3 +1,5 @@
+const checkAuth = require('../check-auth');
+
 module.exports=(app,user)=>{
 
 	const bcrypt=require('bcrypt')
@@ -109,6 +111,10 @@ app.post('/changePassword',(req,res)=>{
 			});
 	});
 
+
+	app.get('/isloggedin',checkAuth,(req,res)=>{
+		res.send({status:1})
+	})
 
 
 }

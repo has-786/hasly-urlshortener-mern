@@ -75,9 +75,7 @@ function Home(props) {
 
   return (
     <div><center>
-      <Header {...props} />
-      <br />
-        <br />
+      <br /> <br />
       { (urlobj)?
           <Showurl {...{urlobj,email}}/>
             :
@@ -96,7 +94,7 @@ function Home(props) {
         })
       }
       </List>
-      <Footer {...{props,email}}/>
+      <Footer  {...props}/>
       </div>
       </center>
 

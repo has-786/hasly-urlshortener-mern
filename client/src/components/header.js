@@ -6,6 +6,7 @@ import Tab from '@material-ui/core/Tab';
 import HomeIcon from '@material-ui/icons/Home';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import AddIcon from '@material-ui/icons/Add';
+import {useHistory } from 'react-router-dom'
 
 const useStyles = makeStyles({
   root: {
@@ -16,9 +17,10 @@ const useStyles = makeStyles({
 
 
 
-export default function Home(props) {
+function Header(props) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
+  const history=useHistory()
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -35,13 +37,14 @@ export default function Home(props) {
         textColor="secondary"
         aria-label="icon label tabs example"
       >
-        <Tab icon={<HomeIcon />} label="home" onClick={()=>props.history.push('/')}/>
-        <Tab icon={<FavoriteIcon />} label="my urls" onClick={()=>props.history.push('/myurls')}/>
-        <Tab icon={<AddIcon />} label="Add urls" onClick={()=>props.history.push('/addurls')}/>
+        <Tab icon={<HomeIcon />} label="home" onClick={()=>history.push('/')}/>
+        <Tab icon={<FavoriteIcon />} label="my urls" onClick={()=>history.push('/myurls')}/>
+        <Tab icon={<AddIcon />} label="Add urls" onClick={()=>history.push('/addurls')}/>
       </Tabs>
     </Paper>
   );
 }
 
+export default Header
 
 

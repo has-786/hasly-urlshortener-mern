@@ -69,7 +69,6 @@ export default function Addurls(props){
     return <div>
             <center>
 
-      <Header {...props} />
       <center><CircularProgress style={{display:loader}}/></center>
 
       <br />
@@ -109,7 +108,7 @@ export default function Addurls(props){
           <Showurl {...{urlobj,email}}/>
           :null
           }
-          <Footer  {...{props,email}}/>
+            <Footer  {...props}/>
 
             </div>
           </center>

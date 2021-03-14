@@ -66,7 +66,6 @@ export default function Myurls(props) {
   return (
       <>
       <center>
-      <Header {...props}/>
       <br /><br />
       {
          (myurls.length==0)?
@@ -84,7 +83,7 @@ export default function Myurls(props) {
     
       }
           <div style={{width:'400px',maxWidth:'100%'}}>
-              <Footer  {...{props,email}}/>
+           <Footer  {...props}/>
           </div>
       </center>
 

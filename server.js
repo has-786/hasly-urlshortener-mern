@@ -7,7 +7,7 @@ const checkAuth = require("./check-auth");
 const cors=require('cors');
 const path=require('path')
 const app = express();
-app.use(express.json({}));
+app.use(express.json());
 
 const router=express.Router()
 require("./routes/shorturl")(router,shortid,validUrl,db.urls)

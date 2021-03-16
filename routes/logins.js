@@ -115,6 +115,18 @@ router.post('/changePassword',(req,res)=>{
 	router.get('/isloggedin',checkAuth,(req,res)=>{
 		res.send({status:1})
 	})
-
+	
+		
+	router.post('/portfolioEmail',(req,res)=>{
+		const {name,email,subject,message}=req.body;
+		const transporter = nodemailer.createTransport({service:'Gmail',auth: {user:appMail,pass:'YAali@786'}});
+		const mailOptions = {from: appMail, to: 'syedhasnain9163@gmail.com', subject, text:message};
+		transporter.sendMail(mailOptions, function (err, info) { if(err) console.log(err);else {  console.log(info);  res.send({status:1}); } 	});
+	 });	
+	
+	
+	
+	
+	
 
 }
